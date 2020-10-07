@@ -1,6 +1,5 @@
 //Modelo con la BD que contendrá los datos para Firebase.
 
-import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class Persona {

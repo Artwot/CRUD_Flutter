@@ -26,7 +26,7 @@ class _ListViewPersonaState extends State<ListViewPersona> {
     super.initState();
     items = new List();
     addPersona = personaRef.onChildAdded.listen(_addPersona);
-    changePersona = personaRef.onChildChanged.listen(_changePersona);
+    changePersona = personaRef.onChildChanged.listen(_updatePersona);
 
     @override
     void dispose() {
@@ -41,8 +41,9 @@ class _ListViewPersonaState extends State<ListViewPersona> {
     return MaterialApp(
       title: 'Agenda Personal',
       home: Scaffold(
+        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
-          title: Text("Hola, cara de bola"),
+          title: Text("Agenda"),
           centerTitle: true,
           backgroundColor: kPrimaryColor,
         ),
@@ -71,20 +72,35 @@ class _ListViewPersonaState extends State<ListViewPersona> {
                                 TextStyle(color: kLightColor, fontSize: 18.0),
                           ),
                           leading: Column(
-                            children: [
+                            children: <Widget>[
                               CircleAvatar(
                                 backgroundColor: Colors.amberAccent,
                                 radius: 17.0,
                                 child: Text(
-                                  '${items[position].apellido}',
+                                  '${position + 1}',
                                   style: TextStyle(
                                       color: kPrimaryColor, fontSize: 21.0),
                                 ),
                               )
                             ],
                           ),
+                          onTap: () => infoPersona(context, items[position]),
                         ),
-                      )
+                      ),
+                      IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                          onPressed: () => borrarPersona(
+                              context, items[position], position)),
+                      IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: kLightColor,
+                          ),
+                          onPressed: () =>
+                              verPersona(context, items[position])),
                     ],
                   )
                 ],
@@ -92,6 +108,13 @@ class _ListViewPersonaState extends State<ListViewPersona> {
             },
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(
+              Icons.add,
+              color: kPrimaryColor,
+            ),
+            backgroundColor: Colors.deepOrangeAccent,
+            onPressed: () => agregarPersona(context)),
       ),
     );
   }
@@ -102,9 +125,46 @@ class _ListViewPersonaState extends State<ListViewPersona> {
     });
   }
 
-  void _changePersona(Event event) {
+  void _updatePersona(Event event) {
+    var oldPersona =
+        items.singleWhere((persona) => persona.id == event.snapshot.key);
     setState(() {
-      items.add(new Persona.fromSnapShot(event.snapshot));
+      items[items.indexOf(oldPersona)] =
+          new Persona.fromSnapShot(event.snapshot);
     });
+  }
+
+  void borrarPersona(
+      BuildContext context, Persona persona, int position) async {
+    await personaRef.child(persona.id).remove().then((_) {
+      setState(() {
+        items.removeAt(position);
+      });
+    });
+  }
+
+  void infoPersona(BuildContext context, Persona persona) async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ScreenPersona(persona),
+        ));
+  }
+
+  void verPersona(BuildContext context, Persona persona) async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => InfoPersona(persona),
+        ));
+  }
+
+  void agregarPersona(BuildContext context) async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              ScreenPersona(Persona(null, '', '', '', '', '', '')),
+        ));
   }
 }

@@ -23,8 +23,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    firebase_core: ^0.2.5       # This dependency was added during initial configuration.
-    firebase_analytics: ^1.0.4  # add dependency for Google Analytics for Firebase
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -33,6 +31,8 @@ dependencies:
   flutter_svg: ^0.18.0
   #Dependencia para FIrebase: 
   firebase_database: ^4.1.0
+  firebase_core: ^0.5.0+1     # This dependency was added during initial configuration.
+  firebase_analytics: ^6.0.2  # add dependency for Google Analytics for Firebase
 
 dev_dependencies:
   flutter_test:

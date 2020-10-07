@@ -2,7 +2,6 @@ import 'package:crud_app/Screens/Welcome/Login/components/background.dart';
 import 'package:crud_app/Screens/Welcome/ui/listview.dart';
 import 'package:crud_app/components/register_check.dart';
 import 'package:crud_app/components/rounded_button.dart';
-import 'package:crud_app/components/rounded_input.dart';
 import 'package:crud_app/components/rounded_input_email.dart';
 import 'package:crud_app/components/rounded_password.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +33,8 @@ class Body extends StatelessWidget {
           SizedBox(
             height: size.height * 0.03,
           ),
-          RoundedInputEmail(hintText: "Correo electrónico", onChanged: (value) {}),
+          RoundedInputEmail(
+              hintText: "Correo electrónico", onChanged: (value) {}),
           RoundedPassword(onChanged: (value) {}),
           RoundedButton(
             text: "LOGIN",

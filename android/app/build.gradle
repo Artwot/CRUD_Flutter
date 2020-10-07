@@ -22,7 +22,6 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
@@ -53,3 +52,5 @@ android {
 flutter {
     source '../..'
 }
+
+apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
