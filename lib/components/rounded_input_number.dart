@@ -1,16 +1,17 @@
 import 'package:crud_app/components/text_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
-class RoundedInput extends StatelessWidget {
+class RoundedInputNumber extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
-  const RoundedInput({
+  const RoundedInputNumber({
     Key key,
     this.hintText,
-    this.icon = Icons.person,
+    this.icon = Icons.add_call,
     this.onChanged,
   }) : super(key: key);
 

@@ -1,4 +1,5 @@
 import 'package:crud_app/Screens/Welcome/Login/login_screen.dart';
+import 'package:crud_app/Screens/Welcome/Register/register_screen.dart';
 import 'package:crud_app/components/rounded_button.dart';
 import 'package:crud_app/constants.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,11 @@ class Body extends StatelessWidget {
               text: "REGISTRARSE",
               color: kLightColor,
               textColor: Colors.black,
-              press: () {},
+              press: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return RegisterScreen();
+                }));
+              },
             )
           ],
         ),
