@@ -26,8 +26,7 @@ class Body extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           RoundedInput(hintText: "Nombre", onChanged: (value) {}),
-          RoundedInput(hintText: "Apellido paterno", onChanged: (value) {}),
-          RoundedInput(hintText: "Apellido materno", onChanged: (value) {}),
+          RoundedInput(hintText: "Apellido", onChanged: (value) {}),
           RoundedInputEmail(
               hintText: "Correo electronico",
               onChanged: (value) {
@@ -45,11 +44,40 @@ class Body extends StatelessWidget {
               print(_email);
               print(_password);
               try {
-                FirebaseAuth.instance.createUserWithEmailAndPassword(
+                /*FirebaseAuth.instance.createUserWithEmailAndPassword(
                     email: _email, password: _password);
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return ListViewPersona();
+                }));*/
+                UserCredential userCredential = await FirebaseAuth.instance
+                    .createUserWithEmailAndPassword(
+                        email: _email, password: _password);
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ListViewPersona();
                 }));
+              } on FirebaseAuthException catch (e) {
+                if (e.code == 'weak-password') {
+                  print('The password provided is too weak.');
+                  final snackBar = SnackBar(
+                    content: Text('Contraseña débil, al menos 6 caracteres.'),
+                    action: SnackBarAction(
+                      label: 'Ok',
+                      onPressed: () {},
+                    ),
+                  );
+                  Scaffold.of(context).showSnackBar(snackBar);
+                } else if (e.code == 'email-already-in-use') {
+                  print('Ya existe una cuenta registrada con este email.');
+                  final snackBar = SnackBar(
+                    content:
+                        Text('Ya existe una cuenta registrada con este email.'),
+                    action: SnackBarAction(
+                      label: 'Ok',
+                      onPressed: () {},
+                    ),
+                  );
+                  Scaffold.of(context).showSnackBar(snackBar);
+                }
               } catch (e) {
                 print("Ups");
               }

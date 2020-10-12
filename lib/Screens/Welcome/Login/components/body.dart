@@ -62,13 +62,39 @@ class Body extends StatelessWidget {
               print(_email);
               print(_password);
               try {
-                FirebaseAuth.instance.signInWithEmailAndPassword(
+                /*FirebaseAuth.instance.signInWithEmailAndPassword(
                     email: _email, password: _password);
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return ListViewPersona();
+                }));*/
+                UserCredential userCredential = await FirebaseAuth.instance
+                    .signInWithEmailAndPassword(
+                        email: _email, password: _password);
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ListViewPersona();
                 }));
-              } catch (e) {
-                print("ERROR");
+              } on FirebaseAuthException catch (e) {
+                if (e.code == 'user-not-found') {
+                  print('No user found for that email.');
+                  final snackBar = SnackBar(
+                    content: Text('Usuario inexistente.'),
+                    action: SnackBarAction(
+                      label: 'Ok',
+                      onPressed: () {},
+                    ),
+                  );
+                  Scaffold.of(context).showSnackBar(snackBar);
+                } else if (e.code == 'wrong-password') {
+                  print('Wrong password provided for that user.');
+                  final snackBar = SnackBar(
+                    content: Text('Contraseña incorrecta.'),
+                    action: SnackBarAction(
+                      label: 'Ok',
+                      onPressed: () {},
+                    ),
+                  );
+                  Scaffold.of(context).showSnackBar(snackBar);
+                }
               }
             },
           ),
@@ -84,3 +110,23 @@ class Body extends StatelessWidget {
     );
   }
 }
+
+/*class SnackBarPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: RaisedButton(
+        onPressed: () {
+          final snackBar = SnackBar(
+            content: Text('Yeah, yeah, la muñeca fea'),
+            action: SnackBarAction(
+              label: 'Ok',
+              onPressed: () {},
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+        },
+      ),
+    );
+  }
+}*/
