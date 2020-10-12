@@ -8,6 +8,7 @@ class RoundedInputEmail extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
+
   const RoundedInputEmail({
     Key key,
     this.hintText,
@@ -18,7 +19,7 @@ class RoundedInputEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
-      child: TextField(
+      child: TextFormField(
         onChanged: onChanged,
         decoration: InputDecoration(
           icon: Icon(
